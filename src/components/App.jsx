@@ -11,7 +11,6 @@ export const App = () => {
         fontFamily: 'FontAwesome',
       }}
     >
-      React homework template
     </div>
   );
 };
