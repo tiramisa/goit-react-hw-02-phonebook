@@ -1,20 +1,21 @@
-import React, { Component } from "react";
-import ContactForm from "./contactForm/ContactForm";
-import { ContactsList } from "./contactsList/ContactsList";
-import Filter from "./filter/Filter";
+import React, { Component } from 'react';
+import ContactForm from './contactForm/ContactForm';
+import { ContactsList } from './contactsList/ContactsList';
+import Filter from './filter/Filter';
+import styles from '../myCss/index.module.css';
 
 export class App extends Component {
   state = {
     contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+      { id: 'id-1', name: 'Rosie Simpson', phone: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', phone: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', phone: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', phone: '227-91-26' },
     ],
     filter: '',
   };
 
-  handleAddContact = (newContact) => {
+  handleAddContact = newContact => {
     if (this.handleGetUniqueContacts(newContact.name)) {
       this.setState(({ contacts }) => ({
         contacts: [...contacts, newContact],
@@ -22,24 +23,24 @@ export class App extends Component {
     }
   };
 
-  handleRemoveContact = (id) => {
+  handleRemoveContact = id => {
     this.setState(({ contacts }) => ({
-      contacts: contacts.filter((contact) => contact.id !== id),
+      contacts: contacts.filter(contact => contact.id !== id),
     }));
   };
 
-  handleGetUniqueContacts = (name) => {
+  handleGetUniqueContacts = name => {
     const { contacts } = this.state;
-    const isExistContact = !!contacts.find((contact) => contact.name === name);
+    const isExistContact = !!contacts.find(contact => contact.name === name);
 
     if (isExistContact) {
-      alert("Контакт уже существует");
+      alert('Контакт уже существует');
     }
 
     return !isExistContact;
   };
 
-  handleFilterChange = (value) => {
+  handleFilterChange = value => {
     this.setState({ filter: value });
   };
 
@@ -55,17 +56,19 @@ export class App extends Component {
     const visibleContacts = this.getVisibleContacts();
 
     return (
-      <>
-        <h2>Form Contact</h2>
-        <ContactForm onAdd={this.handleAddContact} getUniqueContacts={this.handleGetUniqueContacts} />
-        <h2>Contact List</h2>
+      <div className={styles.container}>
+        <h2 className={styles.formTitle}>Form Contact</h2>
+        <ContactForm
+          onAdd={this.handleAddContact}
+          getUniqueContacts={this.handleGetUniqueContacts}
+        />
+        <h2 className={styles.formTitle}>Contact List</h2>
         <Filter filter={filter} onChange={this.handleFilterChange} />
-        <ContactsList contacts={visibleContacts} onRemove={this.handleRemoveContact} />
-      </>
+        <ContactsList
+          contacts={visibleContacts}
+          onRemove={this.handleRemoveContact}
+        />
+      </div>
     );
   }
 }
-
-
-
-

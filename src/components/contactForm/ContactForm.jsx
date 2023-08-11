@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
+import styles from '../../myCss/index.module.css';
 
 const INITIAL_STATE = {
   phone: '',
@@ -11,13 +12,13 @@ export default class ContactForm extends Component {
 
   handleChangeForm = ({ target }) => {
     const { name, value } = target;
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  handleFormSubmit = (e) => {
+  handleFormSubmit = e => {
     e.preventDefault();
     const { name, phone } = this.state;
     const { onAdd } = this.props;
@@ -44,10 +45,12 @@ export default class ContactForm extends Component {
   render() {
     const { name, phone } = this.state;
     return (
-      <form onSubmit={this.handleFormSubmit}>
+      <form className={styles.decorForm} onSubmit={this.handleFormSubmit}>
         <input
+          className={styles.decorInput}
           type="text"
           name="name"
+          placeholder="Enter name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
@@ -55,16 +58,19 @@ export default class ContactForm extends Component {
           onChange={this.handleChangeForm}
         />
         <input
+          className={styles.decorInput}
           type="text"
           name="phone"
           placeholder="Enter phone number"
-          // pattern="\+[0-9]{1,3} \([0-9]{3}\) [0-9]{3}-[0-9]{4}"
-          title="Please enter a valid phone number in the format +X (XXX) XXX-XXXX"
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          required
           value={phone}
           onChange={this.handleChangeForm}
         />
-
-        <button type="submit">Add Contact</button>
+        <button className={styles.decorButton} type="submit">
+          Add Contact
+        </button>
       </form>
     );
   }
